@@ -25,6 +25,7 @@ nav > ul{
   padding: 0;
   font-weight: 600;
   cursor: pointer;
+  font-family: system-ui;
 }
 nav > ul > li{
   display: inline-block;
@@ -46,21 +47,26 @@ nav > ul > li:hover{
                  justify-content: center;
 }
 .ctnTheme > div{
-  background-color: red;
   margin: 10px;
 }
 .profilCompetence{
+  background-color: rgb(31, 31, 31);
   grid-area: a;
-  width: 700px;
-  height: 820px;
+  width: 800px;
+  height: 780px;
+  overflow-x: hidden;
+  padding-right: 20px;
+  cursor: pointer;
 }
 .themeInteret{
   grid-area: b;
   width: 500px;
   height: 400px;
+  background-color: white;
 }
 .recommendation{
   grid-area: c;
   width: 500px;
   height: 400px;
+  background-color: white;
 }

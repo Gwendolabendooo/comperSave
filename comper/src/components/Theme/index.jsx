@@ -1,68 +1,77 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Script from '@gumgum/react-script-tag';
+import { useCookies } from 'react-cookie';
 
-class Theme extends React.Component {
+const Theme = () => {
 
-    scriptCharge = () => {
-        var OLM = document._OLM;
-        var svgId = null
-        var config={
-            "fontHoverColor": "rgba(255, 255, 255, 1)",
-            "fontColor": "rgba(255, 255, 255, .85)",
-            "colors": [
-                {
-                    "to": 0.4,
-                    "color": "#cf000f"
-                },
-                {
-                    "to": 0.8,
-                    "color": "#f7ca18"
-                },
-                {
-                    "color": "#00b16a"
-                }
-            ],
-            "noValueColor": "#808080",
-            "showMastery": true,
-            "showTrust": true,
-            "showCover": true,
-            "formatMastery": "percentage",
-            "formatTrust": "percentage",
-            "formatCover": "percentage"
-        }
-        // Creates a sample framework randomly scored. This should be replaced with some framework retrieving function. 
+    const [cookies, setCookie, removeCookie] = useCookies(['Theme']);
+
+    function scriptCharge() {
+        var OLM             = null;
+        var fw_tree         = null;
+        var config  = {
+          "useHash": true, 
+          "hashTreshold": 0.1,
+          "useLegend": true,
+          "colors": [{
+            "to": 0.4,
+            "color": "#cf000f"
+          }, {
+            "to": 0.8,
+            "color": "#f7ca18"
+          }, {
+            "color": "#00b16a"
+          }],
+          "noValueColor": "#808080"
+        };
+    
+        OLM = document._OLM;
         let framework = OLM.CORE.Utils.getScoredFrameworkSample();
-        // Creates a tree based on the framework.
-        let fw_tree = new OLM.CORE.FrameworkTree();
+
+        fw_tree = new OLM.CORE.FrameworkTree();
         fw_tree.buildFromFramework(framework);
-        console.log(fw_tree, "olm")
-        // Creates the treeIndented object. The config is editable on the right =>  
-        let treeIndented  = new OLM.treeIndented(document.getElementById('profilCompetence'), fw_tree, config);
+
+        let treeIndented  = new OLM.TreeIndented(document.getElementById('profilCompetences'), fw_tree, config);
+
         treeIndented.onClick = (node) => {
-          // Your click behavior here. In the exemple below, we just pompt the node in the console.
+            const themeAdd={
+                id: node.id,
+                name: node.data.name
+            }
+
+            var Themes = []
+            if (cookies.Theme !== undefined) {
+                console.log("cookie non vide", cookies.Theme)
+                Themes.push(cookies.Theme)
+                Themes.push(themeAdd)
+            }else{
+                Themes.push(themeAdd)
+                console.log("cookie vide", Themes)
+            }
+            JSON.stringify(Themes)
+
+            setCookie('Theme', Themes, { path: '/', expires: new Date(Date.now()+2592000)});
         }
-        // We chose an id for the svg element. Default behavior automatically creates a unique id.
-        treeIndented.draw(svgId = 'test-pack');
+
+        treeIndented.draw();
         
     };
 
-    render() {
         return (
             <div className="ctnTheme">
-                <div className="profilCompetence" id="profilCompetence"></div>
+                <div className="profilCompetence" id="profilCompetences"></div>
                 <div className="themeInteret"></div>
                 <div className="recommendation"></div>
                 <Script
                     src="http://yourjavascript.com/2210520913/olm-bundle.js"
                     type="text/javascript"
-                    onLoad={ this.scriptCharge }
+                    onLoad={ scriptCharge }
                     async
                     defer
                 />
             </div>
         )
-    }
 
 }
 
