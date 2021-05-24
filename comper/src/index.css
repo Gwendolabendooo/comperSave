@@ -1,6 +1,7 @@
 body{
   background-color: rgb(238, 238, 238);
   margin-top: 120px;
+  font-family: system-ui;
 }
 nav{
   background-color: white;
@@ -25,7 +26,6 @@ nav > ul{
   padding: 0;
   font-weight: 600;
   cursor: pointer;
-  font-family: system-ui;
 }
 nav > ul > li{
   display: inline-block;
@@ -42,31 +42,74 @@ nav > ul > li:hover{
 }
 .ctnTheme{
   display: grid;
-  grid-template: "a b"
+  grid-template: "methode b"
+                 "a b"
                  "a c";
                  justify-content: center;
 }
 .ctnTheme > div{
   margin: 10px;
+  box-shadow: 1px 1px 12px #555;
 }
 .profilCompetence{
   background-color: rgb(31, 31, 31);
   grid-area: a;
-  width: 800px;
-  height: 780px;
+  width: 830px;
+  height: 680px;
   overflow-x: hidden;
   padding-right: 20px;
   cursor: pointer;
 }
+span{
+  padding-left: 10px;
+}
+h2{
+  text-align: center;
+  font-size: 22px;
+  font-weight: 700;
+}
 .themeInteret{
   grid-area: b;
   width: 500px;
-  height: 400px;
+  height: 385px;
   background-color: white;
 }
 .recommendation{
   grid-area: c;
   width: 500px;
-  height: 400px;
+  height: 385px;
   background-color: white;
+}
+.methode{
+  grid-area: methode;
+  background-color: white;
+  display: inline-flex;
+  text-align: center;
+}
+.methode > div{
+  margin: auto;
+  font-size: 20px;
+  padding: 15px;
+  cursor: pointer;
+  width: 25%;
+  transition: all .4s;
+  -webkit-transition: all .4s;
+  -moz-transition: all .4s;
+  -ms-transition: all .4s;
+  -o-transition: all .4s;
+}
+.methode > div:hover{
+  background-color: black;
+  color: white;
+}
+.methode > div > svg{
+  font-size: 35px;
+}
+h3{
+  margin: 0;
+  font-weight: 600;
+}
+.methodeSelect{
+  color: white;
+  background-color: black;
 }
