@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, setState } from 'react';
 import { Link } from 'react-router-dom';
 import Script from '@gumgum/react-script-tag';
 import { useCookies } from 'react-cookie';
 import { useJwt } from "react-jwt";
 import axios from "axios";
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { faBookOpen, faCompass, faHammer, faRocket } from "@fortawesome/free-solid-svg-icons";
+import { faBookOpen, faCompass, faHammer, faRocket, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const Theme = () => {
@@ -20,6 +20,8 @@ const Theme = () => {
     //     })  
 
     const [methode, setMethode] = useState(null);
+    const [themeList, setThemeList] = React.useState(cookies.Theme);
+    var tabThemes = []
 
 
 
@@ -51,40 +53,52 @@ const Theme = () => {
         let treeIndented  = new OLM.TreeIndented(document.getElementById('profilCompetences'), fw_tree, config);
 
         treeIndented.onClick = (node) => {
+            //Incrémentation du cookie
             const themeAdd={
                 id: node.id,
-                name: node.data.name
+                name: node.data.name,
             }
 
             var doublon = 0;
-            var Themes = []
+            console.log("valeur de base: ",cookies.Theme)
 
-            if (cookies.Theme !== undefined) {
-                console.log("cookie non vide", cookies.Theme)
-                Themes = cookies.Theme;
+            if (cookies.Theme != undefined) {
+                console.log("cookie")
 
-                Themes.forEach(function(item){
-                    console.log(item.id == themeAdd.id)
+                tabThemes = cookies.Theme
+
+                tabThemes.forEach(function(item){
+                    console.log(item.id, "==" ,themeAdd.id)
                     if (item.id == themeAdd.id) {
                         doublon++;
+                        console.log("doublon",doublon)
                     }
                 });
-                if (doublon != 0) {
-                    Themes.push(themeAdd)
+                if (doublon == 0) {
+                    tabThemes.push(themeAdd)
                 }
             }else{
-                Themes.push(themeAdd)
-                console.log("cookie vide", Themes)
+                tabThemes.push(themeAdd)
+                console.log("cookie vide")
             }
 
-            JSON.stringify(Themes)
+            majTheme(tabThemes)
+            JSON.stringify(tabThemes)
 
-            setCookie('Theme', Themes, { path: '/', expires: new Date(Date.now()+2592000)});
+            setCookie('Theme', tabThemes, { path: '/', expires: new Date(Date.now()+2592000)});
         }
 
         treeIndented.draw();
         
     };
+
+    const majTheme = (params) => {
+        setThemeList(params)
+    }
+
+    const listItems = themeList.map((item) =>
+        <li className="themeItem" id={item.id} key={item.id}><FontAwesomeIcon className="delete" icon={['fas', 'trash']} />{item.name}</li>
+    );
 
     function themeChoisis(e){
         if (e.target.classList.contains('type-travaille')) {
@@ -115,7 +129,8 @@ const Theme = () => {
         faCompass,
         faHammer,
         faRocket,
-        faBookOpen
+        faBookOpen,
+        faTrash
     );
 
         return (
@@ -141,9 +156,12 @@ const Theme = () => {
                 <div className="profilCompetence" id="profilCompetences"></div>
                 <div className="themeInteret">
                     <h2>Thèmes d'intérêt</h2>
+                    <ul>
+                        {listItems}
+                    </ul>
                 </div>
                 <div className="recommendation">
-                    <h2>Recommendations</h2>
+                    <h2>Recommandations</h2>
                 </div>
                 <Script
                     src="http://yourjavascript.com/2210520913/olm-bundle.js"

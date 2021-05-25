@@ -68,7 +68,38 @@ h2{
   font-size: 22px;
   font-weight: 700;
 }
+.themeItem{
+  list-style-type: none;
+  padding: 8px 8px 8px;
+  box-shadow: 1px 1px 4px #555;
+  margin: 10px;
+  transition: all .4s;
+  -webkit-transition: all .4s;
+  -moz-transition: all .4s;
+  -ms-transition: all .4s;
+  -o-transition: all .4s;
+  overflow: hidden;
+}
+.themeItem:hover{
+  transform: scale(1.04);
+  -webkit-transform: scale(1.04);
+  -moz-transform: scale(1.04);
+  -ms-transform: scale(1.04);
+  -o-transform: scale(1.04);
+}
+.delete{
+  color: red;
+  cursor: pointer;
+  margin-right: 15px;
+}
+
+ul{
+  padding-inline-start: 0;
+  width: 90%;
+  margin: auto;
+}
 .themeInteret{
+  overflow-x: hidden;
   grid-area: b;
   width: 500px;
   height: 385px;
