@@ -2,26 +2,52 @@ import React, { useState, setState } from 'react';
 import { Link } from 'react-router-dom';
 import Script from '@gumgum/react-script-tag';
 import { useCookies } from 'react-cookie';
-import { useJwt } from "react-jwt";
 import axios from "axios";
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faBook, faBookOpen, faCompass, faHammer, faRocket, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+var jwt = require('jsonwebtoken');
+var fs = require('fs')
 
 const Theme = () => {
 
     const [cookies, setCookie, removeCookie] = useCookies(['Theme']);
 
-    let url = "https://comper.projet.liris.cnrs.fr/sites/profile-engine/api/profile/recommendation/index.php?frameworkId=83&learnerUsername=asker:ext_Celian.Abadie'"
+// API PROFIL DE COMPETENCE
 
-    axios.get(url, {
-        headers: { 'x-comper-accepted-host': `https://traffic.irit.fr`,  "Access-Control-Allow-Origin": '*' },
-    }).then(res => { 
-        console.log(res);
+    // let url = "https://comper.projet.liris.cnrs.fr/sites/profile-engine/api/profile/recommendation/index.php?frameworkId=83&learnerUsername=asker:ext_Celian.Abadie"
 
-    }).catch(error => {
-        console.log('erro', error);
-    })
+    // axios.get(url, {
+    //     headers: { "Access-Control-Allow-Origin": '*' , "x-comper-accepted-host": "https://traffic.irit.fr"}
+    // }).then(res => { 
+    //     console.log(res);
+
+    // }).catch(error => {
+    //     console.log('erro', error);
+    // })
+
+
+
+// API RECOMMANDATION
+
+    // var url = "https://traffic.irit.fr/comper/recommendations/api/retrieve/last/json/"
+
+    // var privateKey = fs.readFileSync('gwendal.key');
+
+    // var token = jwt.sign({ foo: 'bar' }, privateKey, { algorithm: 'RS256'});
+
+    // axios.get(url, {
+    //     headers: { "Authorization": "Bearer "+jwt_encoded, "Accept": "application/json"}
+    // }).then(res => { 
+    //     console.log(res);
+
+    // }).catch(error => {
+    //     console.log('erro', error);
+    // })
+
+    
+
+
 
     const [methode, setMethode] = useState(null);
     const [themeList, setThemeList] = useState(cookies.Theme);
