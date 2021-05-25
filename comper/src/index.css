@@ -1,6 +1,6 @@
 body{
   background-color: rgb(238, 238, 238);
-  margin-top: 120px;
+  margin-top: 110px;
   font-family: system-ui;
 }
 nav{
@@ -11,6 +11,7 @@ nav{
   display: flex;
   left: 0;
   top: 0;
+  z-index: 100;
   padding-left: 20px;
   padding-right: 20px;
 }
@@ -54,11 +55,14 @@ nav > ul > li:hover{
 .profilCompetence{
   background-color: rgb(31, 31, 31);
   grid-area: a;
-  width: 830px;
+  width: 1000px;
   height: 680px;
   overflow-x: hidden;
   padding-right: 20px;
   cursor: pointer;
+}
+.profilCompetence > div{
+  width: auto!important;
 }
 span{
   padding-left: 10px;
@@ -79,6 +83,11 @@ h2{
   -ms-transition: all .4s;
   -o-transition: all .4s;
   overflow: hidden;
+  position: relative;
+  height: 58px;
+}
+.date-etudie{
+  margin-left: 36px;
 }
 .themeItem:hover{
   transform: scale(1.04);
@@ -90,13 +99,35 @@ h2{
 .delete{
   color: red;
   cursor: pointer;
-  margin-right: 15px;
+  font-size: 25px;
+  position: absolute;
+  transform: translate(-50%, -50%);
+  -webkit-transform: translate(-50%, -50%);
+  -moz-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  -o-transform: translate(-50%, -50%);
+  left: 20px;
+  top: 50%;
 }
 
 ul{
   padding-inline-start: 0;
   width: 90%;
   margin: auto;
+}
+.profilCompetence::-webkit-scrollbar{
+  width: 10px;
+  background: #000;
+}
+.profilCompetence::-webkit-scrollbar-thumb{
+  background: rgb(243, 243, 243);
+}
+.themeInteret::-webkit-scrollbar{
+  width: 10px;
+  background: rgb(243, 243, 243);
+}
+.themeInteret::-webkit-scrollbar-thumb{
+  background: #000;
 }
 .themeInteret{
   overflow-x: hidden;
@@ -141,6 +172,65 @@ h3{
   font-weight: 600;
 }
 .methodeSelect{
+  color: white!important;
+  background-color: black!important;
+}
+.methodeItem{
+  position: absolute;
+  right: 10px;
+  transform: translate(-50%, -50%);
+  top: 50%;
+  font-size: 20px;
+}
+.ctn-list-methode{
+  position: absolute;
+  right: 0px;
+  color: black;
+  background-color: white;
+}
+.ctn-list-methode > div {
+  padding-left: 5px;
+  padding-right: 5px;
+  cursor: pointer;
+  transition: all .4s;
+  -webkit-transition: all .4s;
+  -moz-transition: all .4s;
+  -ms-transition: all .4s;
+  -o-transition: all .4s;
+}
+.ctn-list-methode > div:hover {
   color: white;
   background-color: black;
 }
+.ctn-list-methode {
+  display: none;
+  padding: 0;
+}
+.ctn-list-methode > div{
+  padding:0;
+}
+.ctn-list-methode > div > svg{
+  padding: 5px;
+}
+.name-item{
+  display: inline-block;
+  width: 360px;
+  height: 21px;
+  margin-left: 36px;
+  overflow: hidden;
+  font-weight: 600;
+}
+.methodselected2{
+  color: white;
+  background-color: black;
+}
+.methodeItem:hover > div {
+  display: inline-flex;
+}
+@media (max-width: 1555px) {
+  .ctnTheme{
+    grid-template: "methode methode"
+                   "a a"
+                   "b c";
+  }
+} 

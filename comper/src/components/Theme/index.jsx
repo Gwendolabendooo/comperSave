@@ -5,22 +5,27 @@ import { useCookies } from 'react-cookie';
 import { useJwt } from "react-jwt";
 import axios from "axios";
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { faBookOpen, faCompass, faHammer, faRocket, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faBook, faBookOpen, faCompass, faHammer, faRocket, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const Theme = () => {
 
     const [cookies, setCookie, removeCookie] = useCookies(['Theme']);
 
-    // axios({ "method": 'get', "url": 'https://comper.projet.liris.cnrs.fr/sites/profile-engine/api/profile/recommendation/index.php?frameworkId=83&learnerUsername=asker:ext_Celian.Abadie', "headers": { 'x-comper-accepted-host': `https://traffic.irit.fr`,  "Access-Control-Allow-Origin": '*'} }).then((response) => {
-    //     console.log(response);
-    // }).catch (
-    //     function (error) {
-    //         console.log(error)
-    //     })  
+    let url = "https://comper.projet.liris.cnrs.fr/sites/profile-engine/api/profile/recommendation/index.php?frameworkId=83&learnerUsername=asker:ext_Celian.Abadie'"
+
+    axios.get(url, {
+        headers: { 'x-comper-accepted-host': `https://traffic.irit.fr`,  "Access-Control-Allow-Origin": '*' },
+    }).then(res => { 
+        console.log(res);
+
+    }).catch(error => {
+        console.log('erro', error);
+    })
 
     const [methode, setMethode] = useState(null);
-    const [themeList, setThemeList] = React.useState(cookies.Theme);
+    const [themeList, setThemeList] = useState(cookies.Theme);
+
     var tabThemes = []
 
 
@@ -56,7 +61,7 @@ const Theme = () => {
             //Incrémentation du cookie
             const themeAdd={
                 id: node.id,
-                name: node.data.name,
+                name: node.data.name
             }
 
             var doublon = 0;
@@ -96,8 +101,61 @@ const Theme = () => {
         setThemeList(params)
     }
 
+    function selectedMethod(e){
+        var test = 0
+        if (e.target.parentNode.tagName == "svg") {
+            e.target.parentNode.parentNode.parentNode.children[0].classList.remove('methodselected2')
+            e.target.parentNode.parentNode.parentNode.children[1].classList.remove('methodselected2')
+            e.target.parentNode.parentNode.parentNode.children[2].classList.remove('methodselected2')
+            e.target.parentNode.parentNode.parentNode.children[3].classList.remove('methodselected2')
+
+            test = e.target.parentNode.parentNode.classList
+
+            e.target.parentNode.parentNode.classList.add('methodselected2')
+        }else{
+            e.target.parentNode.parentNode.children[0].classList.remove('methodselected2')
+            e.target.parentNode.parentNode.children[1].classList.remove('methodselected2')
+            e.target.parentNode.parentNode.children[2].classList.remove('methodselected2')
+            e.target.parentNode.parentNode.children[3].classList.remove('methodselected2')
+
+            test = e.target.parentNode.parentNode.classList[0]
+
+            e.target.parentNode.classList.add('methodselected2')
+        }
+    }
+
+    var n =  new Date();
+    var y = n.getFullYear();
+    var m = n.getMonth() + 1;
+    var d = n.getDate();
+    var heure   = n.getHours();
+    var minute  = n.getMinutes();
+
+    if (m.toString().length == 1) {
+        m = "0"+m
+    }
+    if (d.toString().length == 1) {
+        d = "0"+d
+    }
+    if (heure.toString().length == 1) {
+        heure = "0"+heure
+    }
+    if (minute.toString().length == 1) {
+        minute = "0"+minute
+    }
+
+    const datelocal = "" +y + "-" + m + "-" + d +"T"+heure+":"+minute+"";
+
+    const deleteTheme = e => {
+        if (e.target.parentNode.tagName == "svg") {
+            e.target.parentNode.parentNode.style.display = "none"
+        }else{
+            e.target.parentNode.style.display = "none"
+        }
+    }
+
     const listItems = themeList.map((item) =>
-        <li className="themeItem" id={item.id} key={item.id}><FontAwesomeIcon className="delete" icon={['fas', 'trash']} />{item.name}</li>
+        <li className="themeItem" id={item.id} key={item.id}><FontAwesomeIcon onClick={deleteTheme} className="delete" icon={['fas', 'trash']} /> <div className="name-item">{item.name}</div> <div className="methodeItem"> <FontAwesomeIcon icon={['fas', 'book']} /><div className="ctn-list-methode"><div onClick={selectedMethod} className="decouverte"><FontAwesomeIcon className="" icon={['fas', 'compass']} /></div><div className="renforcement" onClick={selectedMethod}><FontAwesomeIcon className="" icon={['fas', 'hammer']} /></div><div className="soutien" onClick={selectedMethod}><FontAwesomeIcon className="" icon={['fas', 'rocket']} /></div><div className="revision" onClick={selectedMethod}><FontAwesomeIcon className="" icon={['fas', 'book-open']} /></div></div></div> <input className="date-etudie" type="datetime-local" min={datelocal} value={datelocal} /></li>
     );
 
     function themeChoisis(e){
@@ -130,7 +188,8 @@ const Theme = () => {
         faHammer,
         faRocket,
         faBookOpen,
-        faTrash
+        faTrash,
+        faBook
     );
 
         return (
