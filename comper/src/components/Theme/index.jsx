@@ -4,7 +4,7 @@ import Script from '@gumgum/react-script-tag';
 import { useCookies } from 'react-cookie';
 import axios from "axios";
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { faBook, faBookOpen, faCompass, faHammer, faRocket, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faBook, faBookOpen, faCompass, faConciergeBell, faHammer, faRocket, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 var jwt = require('jsonwebtoken');
 var fs = require('fs')
@@ -47,14 +47,10 @@ const Theme = () => {
 
     
 
-
-
     const [methode, setMethode] = useState(null);
     const [themeList, setThemeList] = useState(cookies.Theme);
 
     var tabThemes = []
-
-
 
     function scriptCharge() {
         var OLM             = null;
@@ -173,16 +169,25 @@ const Theme = () => {
     const datelocal = "" +y + "-" + m + "-" + d +"T"+heure+":"+minute+"";
 
     const deleteTheme = e => {
+        var listeTheme = themeList
+
         if (e.target.parentNode.tagName == "svg") {
-            e.target.parentNode.parentNode.style.display = "none"
+            listeTheme.splice(e.target.parentNode.parentNode.id, 1)
         }else{
-            e.target.parentNode.style.display = "none"
+            listeTheme.splice(e.target.parentNode.id, 1)
         }
+
+        JSON.stringify(listeTheme)
+
+        setCookie('Theme', listeTheme, { path: '/', expires: new Date(Date.now()+2592000)});
     }
 
-    const listItems = themeList.map((item) =>
-        <li className="themeItem" id={item.id} key={item.id}><FontAwesomeIcon onClick={deleteTheme} className="delete" icon={['fas', 'trash']} /> <div className="name-item">{item.name}</div> <div className="methodeItem"> <FontAwesomeIcon icon={['fas', 'book']} /><div className="ctn-list-methode"><div onClick={selectedMethod} className="decouverte"><FontAwesomeIcon className="" icon={['fas', 'compass']} /></div><div className="renforcement" onClick={selectedMethod}><FontAwesomeIcon className="" icon={['fas', 'hammer']} /></div><div className="soutien" onClick={selectedMethod}><FontAwesomeIcon className="" icon={['fas', 'rocket']} /></div><div className="revision" onClick={selectedMethod}><FontAwesomeIcon className="" icon={['fas', 'book-open']} /></div></div></div> <input className="date-etudie" type="datetime-local" min={datelocal} value={datelocal} /></li>
-    );
+    var listItems = "test"
+    if (themeList != undefined) {
+        listItems = themeList.map((item, i) =>  
+            <li className="themeItem" id={i} key={item.id}><FontAwesomeIcon onClick={deleteTheme} className="delete" icon={['fas', 'trash']} /> <div className="name-item">{item.name}</div> <div className="methodeItem"> <FontAwesomeIcon icon={['fas', 'book']} /><div className="ctn-list-methode"><div onClick={selectedMethod} className="decouverte"><FontAwesomeIcon className="" icon={['fas', 'compass']} /></div><div className="renforcement" onClick={selectedMethod}><FontAwesomeIcon className="" icon={['fas', 'hammer']} /></div><div className="soutien" onClick={selectedMethod}><FontAwesomeIcon className="" icon={['fas', 'rocket']} /></div><div className="revision" onClick={selectedMethod}><FontAwesomeIcon className="" icon={['fas', 'book-open']} /></div></div></div> <input className="date-etudie" type="datetime-local" min={datelocal} value={datelocal} /></li>
+        );
+    }
 
     function themeChoisis(e){
         if (e.target.classList.contains('type-travaille')) {
@@ -242,7 +247,7 @@ const Theme = () => {
                 <div className="themeInteret">
                     <h2>Thèmes d'intérêt</h2>
                     <ul>
-                        {listItems}
+                        {cookies.Theme == undefined ? "":listItems}
                     </ul>
                 </div>
                 <div className="recommendation">
